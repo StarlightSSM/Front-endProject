@@ -36,5 +36,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://github.com/StarlightSSM/Front-endProject.git"
+  "homepage": "https://StarlightSSM.github.io/Front-endProject/",
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  }
 }
