@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbit&display=swap');
+
+* {
+    font-family: 'Orbit', sans-serif;
+}
+
+table {
+    margin: 0 15px 10px 15px;
+    width: 98%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+
+thead {
+    font-weight: 900;
+    color: #ffffff;
+    background: #4B0082;
+    border: solid 1px;
+    border-color: #4B0082 #4B0082 #ffffff #4B0082;
+}
+
+tfoot {
+    font-weight: 900;
+    color: #ffffff;
+    background: #4B0082;
+    border: solid 1px;
+    border-color: #ffffff #4B0082 #4B0082 #4B0082;
+}
+
+/* table 너비 상세설정
+1 : 체크박스
+2~3 : 셀렉박스
+4 : 과목명 */
+th:nth-child(1) {
+    width: 20px;
+}
+
+th:nth-child(2),
+thead th:nth-child(3) {
+    width: 50px;
+}
+
+th:nth-child(3) {
+    width: 100px;
+}
+
+
+td,
+th {
+    padding: 6px 6px;
+    text-align: center;
+    border: 1px solid #ffffff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #E6E6FA	;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #9370DB;
+}
+
+input[type="button"] {
+    width: auto;
+    height: 2em;
+    background-color: #4B0082;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 3px;
+    border: 1px solid #ffffff;
+    outline: 0;
+    cursor: pointer;
+}
+
+input[type="number"] {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #ffffff;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+input[name="text"] {
+    width: 10%;
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+input[type="checkbox"] {
+    accent-color: #FF1493;
+}
+
+.title {
+    min-width: 50%;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.btn_box {
+    width: auto;
+    display: inline-block;
+    margin: 30px 20px 0 0;
+    float: right;
+}

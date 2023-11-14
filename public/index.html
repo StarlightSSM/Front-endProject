@@ -1,35 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <title>3_A_201944005_신수민</title>
+</head>
+
+<body>
+  <script>
+    //점수에 해당하는 성적을 반환하는 함수
+    function scoreForCredit(score) {
+      if (score >= 95) {
+        return 'A+';
+      } else if (score >= 90) {
+        return 'A0';
+      } else if (score >= 85) {
+        return 'B+';
+      } else if (score >= 80) {
+        return 'B0';
+      } else if (score >= 75) {
+        return 'C+';
+      } else if (score >= 70) {
+        return 'C0';
+      } else if (score >= 65) {
+        return 'D+';
+      } else if (score >= 60) {
+        return 'D0';
+      } else {
+        return 'F';
+      }
+    };
+    $(document).ready(function () {
+      //추가 버튼 구현
+      $("input[value=\"추가\"]").click(function () {
+        //테이블 학년 확인
+        let grade = $(this).parent().parent().attr('id');
+
+        //row 추가
+        $("#" + grade + " .scores").append(
+          `<tr>
+                      <td><input type="checkbox" name="check"></td>
+                      <td><select class="partion" name="partion">
+                          <option value="Major">전공</option>
+                          <option value="Culture">교양</option></td>
+                      <td><select class="essential" name="partion">
+                          <option value="Ess">필수</option>
+                          <option value="Opt">선택</option></td>
+                      <td><input type="text"></td>
+                      <td><input type="number" min="1" max="3"></td>
+                      <td><input type="number" min="0" max="20"></td>
+                      <td><input type="number" min="0" max="20"></td>
+                      <td><input type="number" min="0" max="30"></td>
+                      <td><input type="number" min="0" max="30"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>`);
+      });
+
+      //삭제 버튼 구현
+      $("input[value=\"삭제\"]").click(function () {
+        $("[name=\"check\"]:checked").closest('tr').remove();
+      });
+
+      //저장 버튼 구현
+      $("input[value=\"저장\"]").click(function () {
+        //테이블 학년 확인
+        let grade = $(this).parent().parent().attr('id');
+
+        let sumArr = [0, 0, 0, 0, 0];
+        let CntPNP = 0;
+        //합계 계산
+        $('#' + grade + ' .scores tr').each(function () {
+          let emptyCnt = 0;
+          let sum = 0;
+          //총점 계산, 출력
+          for (let i = 5; i < 9; i++) {
+            sum += Number($(this).find('td:eq(' + i + ')').children().val());
+            if ($(this).find('td:eq(' + i + ')').children().val().trim() === '') {
+              emptyCnt += 1;
+            }
+          }
+          $(this).find('td:eq(9)').text(sum);
+
+          //총점 -> 성적 처리
+          $(this).find('td:eq(11)').text(scoreForCredit(sum));
+          if (sum < 60) {   //F는 빨강색으로 표시
+            $(this).find('td:eq(11)').css('color', 'red');
+          } else {
+            $(this).find('td:eq(11)').css('color', '#000000');
+          }
+
+          //합계 계산
+          for (let i = 4; i < 9; i++) {
+            sumArr[i - 4] += Number($(this).find('td:eq(' + i + ')').children().val());
+          }
+
+          //P, NP
+          if (emptyCnt >= 4) {
+            $(this).find('td:eq(9)').empty();
+            $(this).find('td:eq(11)').empty();
+            $(this).find('td:eq(11)').append(`<select class='PNP' name='PNP'>
+                      <option value='Pass'>P</option>
+                      <option value='NonPass'>NP</option>`);
+            CntPNP += 1;
+          }
+        });
+
+        //합계 출력
+        let sum = 0;
+        for (let i = 2; i < 7; i++) {
+          $("#" + grade + " .sum").find('td:eq(' + i + ')').text(sumArr[i - 2]);
+          sum += sumArr[i - 2];
+        }
+        sum -= sumArr[0];
+
+        subCnt = $("#" + grade + " .scores tr").length - CntPNP;
+        $("#" + grade + " .sum").find('td:eq(7)').text(sum);
+        $("#" + grade + " .sum").find('td:eq(8)').text(Math.round(sum / subCnt));
+        $("#" + grade + " .sum").find('td:eq(9)').text(scoreForCredit(sum / subCnt));
+        if (sum / subCnt < 60) {   //F는 빨강색으로 표시
+          $("#" + grade + " .sum").find('td:eq(9)').css('color', 'red');
+        } else {
+          $("#" + grade + " .sum").find('td:eq(9)').css('color', 'inherit');
+        }
+
+      });
+    });
+  </script>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -39,5 +146,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>
